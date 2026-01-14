@@ -1,0 +1,155 @@
+/* 기본 스타일 초기화 및 모바일 뷰 설정 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* 앱 배경색 */
+}
+
+#app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 뷰포트 높이만큼 최소 높이 설정 */
+    padding-bottom: 60px; /* 하단 내비게이션 공간 확보 */
+}
+
+header {
+    background-color: #3f51b5; /* 앱 바 색상 */
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------------------------------- */
+/* 1. 하단 내비게이션 스타일 */
+/* ---------------------------------- */
+.bottom-nav {
+    position: fixed; /* 하단 고정 */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.bottom-nav ul {
+    display: flex;
+    justify-content: space-around;
+    height: 55px; /* 내비게이션 높이 */
+}
+
+.nav-item {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-decoration: none;
+    color: #777;
+    font-size: 0.75rem; /* 모바일 폰트 크기 */
+    transition: color 0.2s;
+}
+
+/* 활성 링크 스타일 */
+.router-link-active, .router-link-exact-active {
+    color: #3f51b5;
+    font-weight: bold;
+}
+
+/* ---------------------------------- */
+/* 2. 콘텐츠 영역 스타일 */
+/* ---------------------------------- */
+.content-area {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+/* 노트 리스트 항목 스타일 */
+.note-list-item {
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background-color: white;
+    transition: background-color 0.1s;
+}
+
+.note-list-item:hover {
+    background-color: #eee;
+}
+
+.note-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.note-date {
+    color: #888;
+    font-size: 0.8rem;
+    display: block; /* 줄 바꿈 */
+    margin-top: 5px;
+}
+
+
+/* ---------------------------------- */
+/* 3. 폼/버튼 스타일 (EditNoteView) */
+/* ---------------------------------- */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.input-title, .input-content {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* 패딩이 전체 너비에 포함되도록 */
+}
+
+.input-content {
+    resize: vertical;
+}
+
+.save-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+
+/* ---------------------------------- */
+/* 4. 접근성 개선 (스크린 리더 전용) */
+/* ---------------------------------- */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
