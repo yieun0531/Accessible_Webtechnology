@@ -1,55 +1,71 @@
-// views/SearchView.js (예시 구조)
-import SearchBar from '../components/SearchBar.js';
-import dataService from '../dataService.js';
-import NoteListItem from '../components/NoteListItem.js';
+// views/SearchView.js
+
+import SearchBar from "../components/SearchBar.js"; // (Optional: if you want to keep using the component)
+import NoteListItem from "../components/NoteListItem.js";
+import dataService from "../dataService.js";
 
 const htmlTemplate = /*html*/`
-  <div class="search-view">
-    <h1>Search Results</h1>
+  <div>
+    <h2>Search Notes</h2>
     
-    <SearchBar @search-triggered="handleSearch" />
-
-    <div class="results-list">
+    <div style="margin: 15px 0;">
+      <label for="search-input" style="font-weight: bold;">Keyword:</label>
+      <br>
+      <input 
+        type="search" 
+        id="search-input" 
+        v-model="searchQuery" 
+        placeholder="Type to search..."
+        style="width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;"
+      >
+    </div>
+    
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+    
+    <div v-if="filteredNotes.length > 0">
+      <p>Found <strong>{{ filteredNotes.length }}</strong> result(s):</p>
       <NoteListItem 
         v-for="note in filteredNotes" 
         :key="note.id" 
         :note="note" 
       />
-      
-      <p v-if="filteredNotes.length === 0">No notes found.</p>
+    </div>
+    
+    <div v-else-if="searchQuery">
+      <p style="color: #d9534f;">No results found for "{{ searchQuery }}".</p>
+    </div>
+    
+    <div v-else>
+      <p style="color: #777;">Type something above to search your notes.</p>
     </div>
   </div>
 `;
 
 export default {
-  components: { SearchBar, NoteListItem },
   template: htmlTemplate,
+  components: { SearchBar, NoteListItem },
   data() {
     return {
-      allNotes: [],      // 전체 데이터
-      filteredNotes: []  // 검색 결과 데이터
-    };
+      allNotes: [],
+      searchQuery: ''
+    }
+  },
+  computed: {
+    // Computed property to filter notes dynamically
+    filteredNotes() {
+      // If query is empty, return empty list (or all notes if you prefer)
+      if (!this.searchQuery) return [];
+      
+      const lowerQuery = this.searchQuery.toLowerCase();
+      // Filter by title OR content
+      return this.allNotes.filter(note => 
+        note.title.toLowerCase().includes(lowerQuery) || 
+        note.content.toLowerCase().includes(lowerQuery)
+      );
+    }
   },
   mounted() {
-    // 초기 데이터 로드 (dataService 활용)
-    this.allNotes = dataService.getAllNotes();
-    this.filteredNotes = this.allNotes; // 처음엔 전체 표시
-  },
-  methods: {
-    // 3. 자식이 보낸 searchQuery를 처리하는 함수
-    handleSearch(query) {
-      if (!query) {
-        this.filteredNotes = this.allNotes;
-        return;
-      }
-      
-      const lowerQuery = query.toLowerCase();
-      this.filteredNotes = this.allNotes.filter(note => {
-        return (
-          note.title.toLowerCase().includes(lowerQuery) || 
-          note.content.toLowerCase().includes(lowerQuery)
-        );
-      });
-    }
+    // Load all notes when the view mounts
+    this.allNotes = dataService.getNotes();
   }
-};
+}

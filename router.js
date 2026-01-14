@@ -12,12 +12,14 @@ import SettingsView from './views/SettingsView.js' // <-- ADDED
 const routes = [
   { path: '/', component: HomeView },
   { path: '/notes', component: NoteListView },
-  
-  // [CHANGED] Add '/:id' to the path.
-  // This tells Vue Router that 'id' is a dynamic parameter.
   { path: '/note-detail/:id', component: NoteDetailView },
   
+  // Create New Note
   { path: '/edit-note', component: EditNoteView },
+  
+  // [ADDED] Edit Existing Note (accepts an ID)
+  { path: '/edit-note/:id', component: EditNoteView },
+  
   { path: '/search', component: SearchView },
   { path: '/settings', component: SettingsView }
 ]

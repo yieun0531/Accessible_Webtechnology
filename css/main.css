@@ -153,3 +153,39 @@ ul {
     clip: rect(0, 0, 0, 0);
     border: 0;
 }
+
+
+/* ---------------------------------- */
+/* 5. Dark Mode Styles                */
+/* ---------------------------------- */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Apply dark background and light text to components in dark mode */
+body.dark-mode .note-list-item,
+body.dark-mode .bottom-nav,
+body.dark-mode header,
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #333;
+}
+
+body.dark-mode .bottom-nav {
+    border-top-color: #333;
+}
+
+body.dark-mode .note-date {
+    color: #aaa;
+}
+
+/* ---------------------------------- */
+/* 6. Font Size Configurations        */
+/* ---------------------------------- */
+body.font-small { font-size: 14px; }
+body.font-medium { font-size: 16px; } /* Default size */
+body.font-large { font-size: 20px; }

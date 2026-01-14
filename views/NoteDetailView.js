@@ -1,15 +1,25 @@
 // views/NoteDetailView.js
 
 import dataService from "../dataService.js";
+import router from "../router.js"; // Needed for redirection after delete
 
 const htmlTemplate = /*html*/`
   <div>
     <div v-if="note">
       <h2>{{ note.title }}</h2>
-      <small style="color: grey;">{{ note.date }}</small>
+      <small class="note-date">{{ note.date }}</small>
       <hr />
       
-      <p style="white-space: pre-wrap; margin-top: 20px;">{{ note.content }}</p>
+      <p style="white-space: pre-wrap; margin-top: 20px; line-height: 1.6;">{{ note.content }}</p>
+
+      <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+        
+        <router-link :to="'/edit-note/' + note.id">
+           <button class="save-button" style="background-color: #2196F3; margin-right: 10px;">Edit Note</button>
+        </router-link>
+
+        <button @click="deleteNote" class="save-button" style="background-color: #f44336;">Delete Note</button>
+      </div>
     </div>
 
     <div v-else>
@@ -18,7 +28,7 @@ const htmlTemplate = /*html*/`
     </div>
 
     <br><br>
-    <router-link to="/notes"> &lt;-- Back to list</router-link>
+    <router-link to="/notes" style="color: #3f51b5; font-weight: bold;"> &lt;-- Back to list</router-link>
   </div>
 `;
 
@@ -26,14 +36,23 @@ export default {
   template: htmlTemplate,
   data() {
     return {
-      note: null // Initially null, will be populated in mounted()
+      note: null
     }
   },
   mounted() {
-    // 1. Get the 'id' from the URL parameters (e.g., /note-detail/123 -> id is 123)
     const noteId = this.$route.params.id;
-
-    // 2. Fetch the specific note data using our service
     this.note = dataService.getNoteById(noteId);
+  },
+  methods: {
+    // Handle note deletion
+    deleteNote() {
+      // Confirm before deleting (Good UX)
+      if (confirm("Are you sure you want to delete this note?")) {
+        dataService.deleteNote(this.note.id);
+        alert("Note deleted.");
+        // Redirect back to the list
+        router.push('/notes');
+      }
+    }
   }
 }
